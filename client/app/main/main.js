@@ -5,7 +5,20 @@ angular.module('barsApp')
     $stateProvider
       .state('main', {
         url: '/',
-        templateUrl: 'app/main/main.html',
-        controller: 'MainCtrl',
-      });
+        views: {
+            "": {templateUrl: 'app/main/main.html',
+                 controller: 'MainCtrl',
+},
+
+            'bars@main' : {
+                controller: 'BarCtrl',
+                templateUrl: 'app/bars/bars.html'
+            }
+        }
+      })
+    //   .state('main.bars', {
+    //     url: '/bars',
+    //     template: 'I could sure use a drink right now.'
+    // })
+
   });

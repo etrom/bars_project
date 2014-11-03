@@ -6,7 +6,8 @@ angular.module('barsApp')
 
         $http.get('/api/bars').success(function(bars) {
           $scope.bars = bars;
-          socket.syncUpdates('bar', $scope.Bars);
+          debugger;
+          socket.syncUpdates('bar', $scope.bars);
         });
 
         $scope.addBar = function() {
