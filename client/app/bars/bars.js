@@ -3,14 +3,16 @@
 // angular.module('barsApp')
 //   .config(function ($stateProvider) {
 //     $stateProvider
-//       .state('barState', {
-//         url: '/',
-//         templateUrl: 'app/bars/bars.html',
-//         controller: 'BarCtrl',
-//       });
 //       .state('main', {
-//         url: '/',
-//         templateUrl: 'app/main/main.html',
-//         controller: 'MainCtrl',
-//       });
-//   });
+//         url: '/bars',
+//         views: {
+//             "": {templateUrl: 'app/main/main.html',
+//                  controller: 'MainCtrl'
+// }
+
+//             'bars@main' : {
+//                 controller: 'BarCtrl',
+//                 templateUrl: 'app/bars/bars.html'
+//             }
+//         }
+//       })

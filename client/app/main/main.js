@@ -1,5 +1,5 @@
 'use strict';
-
+//displays before logged in - landing page
 angular.module('barsApp')
   .config(function ($stateProvider) {
     $stateProvider
@@ -7,13 +7,13 @@ angular.module('barsApp')
         url: '/',
         views: {
             "": {templateUrl: 'app/main/main.html',
-                 controller: 'MainCtrl',
-},
+                 controller: 'MainCtrl'
+}
 
-            'bars@main' : {
-                controller: 'BarCtrl',
-                templateUrl: 'app/bars/bars.html'
-            }
+            // 'bars@main' : {
+            //     controller: 'BarCtrl',
+            //     templateUrl: 'app/bars/bars.html'
+            // }
         }
       })
     //   .state('main.bars', {

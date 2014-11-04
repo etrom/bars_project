@@ -5,19 +5,13 @@
     <h1>Love Bars</h1>
     <p class="lead"></p>
     <img src="https://cdn1.iconfinder.com/data/icons/valentine-s-day-and-couple/80/Valentine_love_couple-08-512.png" width="7%" alt="lovebar">
-    <h4>Login or Register with:</h4>
-    <a href="/login" type="button"  class="btn black">LOCAL LOGIN</a>
-    <a href="/signup" type="button" class="btn black">LOCAL SIGNUP</a>
-    <a href="" type="button" class="btn btn-primary" ng-click="loginOauth('facebook')">FACEBOOK</a>
   </div>
 </header>
 
 <!-- bars  -->
 
+<div ng-show="isLoggedIn()" ui-view="bars"></div>
 
-
-<!-- <div ui-view="bars"></div>
- -->
 
 
 <!-- features  -->

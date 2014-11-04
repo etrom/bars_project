@@ -1,12 +1,14 @@
 'use strict';
 
+///how to talk to bar.controller(the api)
+
 angular.module('barsApp')
-    .controller('BarCtrl', function ($scope, $http, socket) {
+    .controller('BarCtrl', function ($scope, $http, socket, Auth) {
         $scope.bars = [];
+        $scope.userId = Auth.getCurrentUser()._id;
 
         $http.get('/api/bars').success(function(bars) {
           $scope.bars = bars;
-          debugger;
           socket.syncUpdates('bar', $scope.bars);
         });
 
@@ -14,7 +16,7 @@ angular.module('barsApp')
           if($scope.newBar === '') {
             return;
           }
-          $http.post('/api/bars', { name: $scope.newBar });
+          $http.post('/api/bars', { name: $scope.newBar, userId: $scope.userId });
           $scope.newBar = '';
         };
 

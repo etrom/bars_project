@@ -3,11 +3,16 @@
 var _ = require('lodash');
 var Bar = require('./bar.model');
 
+// var newBar = new Bar.Bar({""});
+// newBar.save();
+
 // Get list of bars
 exports.index = function(req, res) {
   Bar.find(function (err, bars) {
+    console.log(req);
     if(err) { return handleError(res, err); }
     return res.json(200, bars);
+    // return as json so the FE can interpert
   });
 };
 
