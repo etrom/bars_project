@@ -5,6 +5,7 @@ var controller = require('./bar.controller');
 
 var router = express.Router();
 var Bar = require('./bar.model');
+var auth = require('../../auth/auth.service');
 
 router.get('/', controller.index);
 // This is the same as:
@@ -15,8 +16,9 @@ router.get('/', controller.index);
 //     // return as json so the FE can interpert
 //   });
 // });
-router.get('/:id', controller.show);
-router.post('/', controller.create);
+// router.get('/:id', controller.show);
+router.get('/:user_id', controller.userBars);
+router.post('/', auth.isAuthenticated(), controller.create);
 router.put('/:id', controller.update);
 router.patch('/:id', controller.update);
 router.delete('/:id', controller.destroy);

@@ -6,8 +6,9 @@ angular.module('barsApp')
     .controller('BarCtrl', function ($scope, $http, socket, Auth) {
         $scope.bars = [];
         $scope.userId = Auth.getCurrentUser()._id;
+        console.log($scope);
 
-        $http.get('/api/bars').success(function(bars) {
+        $http.get('/api/bars/' + $scope.userId).success(function(bars) {
           $scope.bars = bars;
           socket.syncUpdates('bar', $scope.bars);
         });

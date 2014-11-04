@@ -13,7 +13,10 @@ angular.module('barsApp')
           email: $scope.user.email,
           password: $scope.user.password
         })
-        .then( function() {
+        .then(function() {
+          $scope.userId = Auth.getCurrentUser()._id;
+        })
+        .then(function() {
           // Logged in, redirect to home
           $location.path('/home');
         })

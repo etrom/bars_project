@@ -2,6 +2,7 @@ var passport = require('passport');
 var FacebookStrategy = require('passport-facebook').Strategy;
 
 exports.setup = function (User, config) {
+
   passport.use(new FacebookStrategy({
       clientID: config.facebook.clientID,
       clientSecret: config.facebook.clientSecret,
@@ -12,6 +13,7 @@ exports.setup = function (User, config) {
         'facebook.id': profile.id
       },
       function(err, user) {
+        console.log("user in passport", user, 'profile', profile);
         if (err) {
           return done(err);
         }

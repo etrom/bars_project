@@ -3,16 +3,26 @@
 var _ = require('lodash');
 var Bar = require('./bar.model');
 
-// var newBar = new Bar.Bar({""});
-// newBar.save();
+///functions to manipulate db data for bar
 
 // Get list of bars
 exports.index = function(req, res) {
+  //find by user id to get ids
+  // google: passport user object not in req after fb login
   Bar.find(function (err, bars) {
-    console.log(req);
+
     if(err) { return handleError(res, err); }
     return res.json(200, bars);
     // return as json so the FE can interpert
+  });
+};
+
+
+exports.userBars = function(req, res) {
+  // find by user id to get the users bars
+  Bar.find({userId: req.params.user_id}, function (err, bars) {
+    if(err) { return handleError(res, err); }
+    return res.json(200, bars);
   });
 };
 
@@ -28,6 +38,12 @@ exports.show = function(req, res) {
 // Creates a new bar in the DB.
 exports.create = function(req, res) {
   Bar.create(req.body, function(err, bar) {
+    console.log(req.body);
+    console.log(req.user);
+    // 5458eddc2bb99779ded3426a
+    // 5458eddc2bb99779ded3426a
+    // 10100564500029451
+    // 10100564500029451
     if(err) { return handleError(res, err); }
     return res.json(201, bar);
   });
