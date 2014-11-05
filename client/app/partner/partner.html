@@ -1,0 +1,24 @@
+<p>
+    <div class=" col-lg-6 col-md-3 col-lg-3 col-sm-6">
+     <!--  <button type="button" class="btn btn-success pull-right" ng-click="clicked">add a partner + </button>
+    </div>
+        <div ng-show="clicked">
+            test
+        </div> -->
+    <div class="col-sm-6">
+
+        <button class="btn btn-success pull-right" type="button"  ng-click=" clicked = !clicked ">add a partner + </button>
+
+        <div class="procedure-details" ng-show="clicked">
+        <form ng-show="clicked">
+            <input type="text" name='partnerEmail' class="form-control pull-right" placeholder="enter your partners email" ng-model="partnerEmail">
+
+            <button class="btn btn-primary pull-right" ng-click="blob(partnerEmail)">Submit</button>
+
+        </form>
+
+        </div>
+    <!--  -->
+    </div>
+    <p ng-show="message">{{message}}</p>
+</div>

@@ -3,16 +3,16 @@
 // angular.module('barsApp')
 //   .config(function ($stateProvider) {
 //     $stateProvider
-//       .state('main', {
+//       .state('bars', {
 //         url: '/bars',
-//         views: {
-//             "": {templateUrl: 'app/main/main.html',
-//                  controller: 'MainCtrl'
-// }
+//         // views: {
 
-//             'bars@main' : {
-//                 controller: 'BarCtrl',
-//                 templateUrl: 'app/bars/bars.html'
-//             }
-//         }
-//       })
+//         //     'partner@bars' : {
+//         //         controller: 'PartnerCtrl',
+//         //         templateUrl: 'app/partner/partner.html'
+//         //     }
+//         // }
+//         templateUrl: 'app/bars/bars.html',
+//         controller: 'PartnerCtrl'
+//     })
+// });

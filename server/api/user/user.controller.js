@@ -20,6 +20,14 @@ exports.index = function(req, res) {
   });
 };
 
+exports.updateRequest = function(req,res){
+  User.where({ _id:req.params.userId}).update({requests: true}, function(err,user) {
+    if(err) {return res.send(500, err)};
+    console.log(user);
+    res.json(200, user);
+  })
+};
+
 /**
  * Creates a new user
  */

@@ -38,12 +38,6 @@ exports.show = function(req, res) {
 // Creates a new bar in the DB.
 exports.create = function(req, res) {
   Bar.create(req.body, function(err, bar) {
-    console.log(req.body);
-    console.log(req.user);
-    // 5458eddc2bb99779ded3426a
-    // 5458eddc2bb99779ded3426a
-    // 10100564500029451
-    // 10100564500029451
     if(err) { return handleError(res, err); }
     return res.json(201, bar);
   });
