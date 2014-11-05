@@ -43,6 +43,8 @@ angular.module('barsApp')
     }
 
 
+
+
     // console.log($scope.getCurrentUser().name);
     // $scope.changePassword = function(form) {
     //   $scope.submitted = true;

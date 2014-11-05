@@ -62,7 +62,6 @@ exports.show = function (req, res, next) {
   console.log(req.params, "req.params")
   User.findById(userId, function (err, user) {
     console.log(user, 'user');
-    console.log(err, 'err');
     if (err) return next(err);
     if (!user) return res.send(401);
     res.json(user.profile);
