@@ -13,7 +13,7 @@ exports.setup = function (User, config) {
         'facebook.id': profile.id
       },
       function(err, user) {
-        console.log("user in passport", user, 'profile', profile);
+        // console.log("user in passport", user, 'profile', profile);
         if (err) {
           return done(err);
         }

@@ -21,7 +21,9 @@ exports.index = function(req, res) {
 };
 
 exports.updateRequest = function(req,res){
-  User.where({ _id:req.params.userId}).update({requests: true}, function(err,user) {
+  console.log(req.params.reqFrom, 'reqFrom');
+  User.findOneAndUpdate({ _id:req.params.id},{requests: true, reqFrom: req.params.reqFrom}, function(err,user) {
+    // , reqFrom: req.params.
     if(err) {return res.send(500, err)};
     console.log(user);
     res.json(200, user);

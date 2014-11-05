@@ -9,6 +9,7 @@ var UserSchema = new Schema({
   name: String,
   partner: { type: Schema.ObjectId, ref: 'User'},
   requests: Boolean,
+  reqFrom: String,
   email: { type: String, lowercase: true },
   role: {
     type: String,

@@ -14,18 +14,23 @@ angular.module('barsApp')
           socket.syncUpdates('Partner', $scope.partner);
         });
 
-        $scope.blob = function(email) {
+        $scope.addPartner = function(email) {
           $scope.partnerEmail = email;
+          if($scope.partner === ''){
+                return;
+            }
           $http.post('/api/partner/submit', {email: $scope.partnerEmail, userId: $scope.userId}).
           success(function(data, status, headers, config) {
-            // console.log(data);
+            console.log(data, "data");
             if(data[0]) {
               $scope.message = "request sent";
-              $http.get('/api/users/' + data[0]._id);
+
+              $http.get('/api/users/' + data[0]._id+ '/pair/'+ $scope.userId);
             } else {
               console.log(data);
               $scope.message = data.message;
             }
+
             socket.syncUpdates('message', $scope.message);
 
           }).
@@ -33,6 +38,8 @@ angular.module('barsApp')
             // called asynchronously if an error occurs
             // or server returns response with an error status.
           });
+
+            $scope.partner = '';
         }
 
         $scope.newPartner = function() {
@@ -45,13 +52,13 @@ angular.module('barsApp')
           return $scope.partner;
         };
 
-        $scope.addPartner = function() {
-          if($scope.newPartner === '') {
-            return;
-          }
-          $http.post('/api/partner/submit', { email: $scope.newPartner, userId: $scope.userId });
-          $scope.newPartner = '';
-        };
+        // $scope.addPartner = function() {
+        //   if($scope.newPartner === '') {
+        //     return;
+        //   }
+        //   $http.post('/api/partner/submit', { email: $scope.newPartner, userId: $scope.userId });
+        //   $scope.newPartner = '';
+        // };
         // $scope.addPartner = function() {
         //   if($scope.newPartner === '') {
         //     return;
