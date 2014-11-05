@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('barsApp')
-  .controller('MainCtrl', function ($scope, $http, socket) {
+  .controller('MainCtrl', function ($scope, $http, socket, Auth, $window) {
     $scope.awesomeThings = [];
 
     $http.get('/api/things').success(function(awesomeThings) {
@@ -25,5 +25,8 @@ angular.module('barsApp')
       socket.unsyncUpdates('thing');
     });
 
+    $scope.loginOauth = function(provider) {
+      $window.location.href = '/auth/' + provider;
+    };
 
   });

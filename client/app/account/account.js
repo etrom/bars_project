@@ -18,5 +18,11 @@ angular.module('barsApp')
         templateUrl: 'app/account/settings/settings.html',
         controller: 'SettingsCtrl',
         authenticate: true
+      })
+      .state('messages', {
+        url: '/messages',
+        templateUrl: 'app/account/messages/messages.html',
+        controller: 'MessagesCtrl',
+        authenticate: true
       });
   });

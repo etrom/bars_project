@@ -21,13 +21,23 @@ exports.index = function(req, res) {
 };
 
 exports.updateRequest = function(req,res){
-  console.log(req.params.reqFrom, 'reqFrom');
   User.findOneAndUpdate({ _id:req.params.id},{requests: true, reqFrom: req.params.reqFrom}, function(err,user) {
     // , reqFrom: req.params.
     if(err) {return res.send(500, err)};
     console.log(user);
     res.json(200, user);
   })
+};
+
+//add a partner
+exports.addPartner = function(req,res){
+  console.log(req.params.reqFrom, 'reqFrom');
+  User.findOneAndUpdate({ _id:req.params.id},{requests: false, reqFrom: '', partner: req.params.reqFrom}, function(err,user) {
+    if(err) {return res.send(500, err)};
+    res.json(200, user);
+  })
+
+
 };
 
 /**
@@ -49,8 +59,10 @@ exports.create = function (req, res, next) {
  */
 exports.show = function (req, res, next) {
   var userId = req.params.id;
-
+  console.log(req.params, "req.params")
   User.findById(userId, function (err, user) {
+    console.log(user, 'user');
+    console.log(err, 'err');
     if (err) return next(err);
     if (!user) return res.send(401);
     res.json(user.profile);

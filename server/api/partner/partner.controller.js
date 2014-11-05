@@ -14,7 +14,6 @@ exports.index = function(req, res) {
 
 // Get a single partner
 exports.show = function(req, res) {
-
   User.find({email: req.body.email}, function(err, partner) {
     console.log(partner);
     if(err) { return handleError(res, err); }
@@ -22,7 +21,7 @@ exports.show = function(req, res) {
       console.log('no partner found');
       return res.json(200, {message: "this user does not exist"});
     }
-    return res.json(200, partner);
+     res.json(200, partner);
   });
 };
 
