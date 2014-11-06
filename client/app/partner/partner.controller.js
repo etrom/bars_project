@@ -30,7 +30,7 @@ angular.module('barsApp')
               console.log(data);
               $scope.message = data.message;
             }
-
+            $scope.partnerEmail = '';
             socket.syncUpdates('message', $scope.message);
 
           }).

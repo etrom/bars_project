@@ -1,17 +1,16 @@
 'use strict';
 
 angular.module('barsApp')
-  .controller('MessagesCtrl', function ($scope, User, $http, Auth) {
+  .controller('MessagesCtrl', function ($scope, User, $http, Auth, $window) {
     $scope.getCurrentUser = Auth.getCurrentUser;
     $scope.userId = Auth.getCurrentUser()._id;
-    $scope.partnerId = Auth.getCurrentUser().reqFrom
-    $scope.partner = {}
+    $scope.partnerId = Auth.getCurrentUser().reqFrom;
+    $scope.partner = {};
+    $scope.acceptance = {};
     // console.log(Auth.getCurrentUser())
 
     User.get().$promise.then(function(user) {
-        console.log("this is runng", user);
         $http.get('api/users/'+ user.reqFrom).success(function(partner) {
-            console.log('partner',partner)
             $scope.partner = partner;
         })
     })
@@ -29,10 +28,11 @@ angular.module('barsApp')
     // }()
 
     //on accept
-    $scope.addPartner = function() {
-    $http.post('api/users/'+ $scope.userId +'/partnered/'+$scope.partnerId).
+    $scope.addPartner = function(acceptance) {
+        $scope.acceptance = acceptance;
+    $http.post('api/users/'+ $scope.userId +'/partnered/'+$scope.partnerId, {acceptance: $scope.acceptance}).
           success(function(data, status, headers, config) {
-            console.log(data);
+            $window.location.href = '/home';
           }).
           error(function(data, status, headers, config) {
             // called asynchronously if an error occurs

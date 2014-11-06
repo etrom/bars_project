@@ -21,23 +21,29 @@ exports.index = function(req, res) {
 };
 
 exports.updateRequest = function(req,res){
+
   User.findOneAndUpdate({ _id:req.params.id},{requests: true, reqFrom: req.params.reqFrom}, function(err,user) {
     // , reqFrom: req.params.
     if(err) {return res.send(500, err)};
-    console.log(user);
     res.json(200, user);
   })
 };
 
 //add a partner
-exports.addPartner = function(req,res){
-  console.log(req.params.reqFrom, 'reqFrom');
-  User.findOneAndUpdate({ _id:req.params.id},{requests: false, reqFrom: '', partner: req.params.reqFrom}, function(err,user) {
-    if(err) {return res.send(500, err)};
-    res.json(200, user);
-  })
+exports.addPartner = function(req,res) {
+  if (req.body.acceptance) {
+    User.findOneAndUpdate({ _id:req.params.id},{requests: false, reqFrom: '', partner: req.params.reqFrom}, function(err,user) {
+      if(err) {return res.send(500, err)};
 
+      res.json(200, user);
+    });
+  } else {
+    User.findOneAndUpdate({ _id:req.params.id},{requests: false, reqFrom: '', partner: {}}, function(err,user) {
+      if(err) {return res.send(500, err)};
 
+        res.json(200, user);
+    });
+  }
 };
 
 /**
