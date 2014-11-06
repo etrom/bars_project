@@ -15,7 +15,6 @@ exports.index = function(req, res) {
 // Get a single partner
 exports.show = function(req, res) {
   User.find({email: req.body.email}, function(err, partner) {
-    console.log(partner);
     if(err) { return handleError(res, err); }
     if(partner.length < 1) {
       console.log('no partner found');

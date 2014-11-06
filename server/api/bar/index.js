@@ -17,7 +17,7 @@ router.get('/', controller.index);
 //   });
 // });
 // router.get('/:id', controller.show);
-router.get('/:user_id', controller.userBars);
+router.get('/:userId',auth.isAuthenticated(), controller.userBars);
 router.post('/', auth.isAuthenticated(), controller.create);
 router.put('/:id', controller.update);
 router.patch('/:id', controller.update);

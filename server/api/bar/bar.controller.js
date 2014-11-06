@@ -20,7 +20,7 @@ exports.index = function(req, res) {
 
 exports.userBars = function(req, res) {
   // find by user id to get the users bars
-  Bar.find({userId: req.params.user_id}, function (err, bars) {
+  Bar.find({userId: req.params.userId}, function (err, bars) {
     if(err) { return handleError(res, err); }
     return res.json(200, bars);
   });

@@ -34,7 +34,9 @@ exports.addPartner = function(req,res) {
   if (req.body.acceptance) {
     User.findOneAndUpdate({ _id:req.params.id},{requests: false, reqFrom: '', partner: req.params.reqFrom}, function(err,user) {
       if(err) {return res.send(500, err)};
-
+    });
+    User.findOneAndUpdate({ _id:req.params.reqFrom},{requests: false, reqFrom: '', partner: req.params.id}, function(err,user) {
+      if(err) {return res.send(500, err)};
       res.json(200, user);
     });
   } else {
@@ -65,12 +67,25 @@ exports.create = function (req, res, next) {
  */
 exports.show = function (req, res, next) {
   var userId = req.params.id;
-  console.log(req.params, "req.params")
   User.findById(userId, function (err, user) {
-    console.log(user, 'user');
     if (err) return next(err);
     if (!user) return res.send(401);
-    res.json(user.profile);
+    res.json(user);
+  });
+};
+
+
+/**
+ * Get my info
+ */
+exports.me = function(req, res, next) {
+  var userId = req.user._id;
+  User.findOne({
+    _id: userId
+  }, '-salt -hashedPassword', function(err, user) { // don't ever give out the password or salt
+    if (err) return next(err);
+    if (!user) return res.json(401);
+    res.json(user);
   });
 };
 
@@ -106,19 +121,6 @@ exports.changePassword = function(req, res, next) {
   });
 };
 
-/**
- * Get my info
- */
-exports.me = function(req, res, next) {
-  var userId = req.user._id;
-  User.findOne({
-    _id: userId
-  }, '-salt -hashedPassword', function(err, user) { // don't ever give out the password or salt
-    if (err) return next(err);
-    if (!user) return res.json(401);
-    res.json(user);
-  });
-};
 
 /**
  * Authentication callback

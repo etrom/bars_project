@@ -5,9 +5,9 @@
 angular.module('barsApp')
     .controller('BarCtrl', function ($scope, $http, socket, Auth) {
         $scope.bars = [];
-        $scope.userId = Auth.getCurrentUser()._id;
+        $scope.userId = Auth.getCurrentUser();
 
-        $http.get('/api/bars/' + $scope.userId).success(function(bars) {
+        $http.get('/api/bars/' + $scope.userId._id).success(function(bars) {
           $scope.bars = bars;
           socket.syncUpdates('bar', $scope.bars);
         });
@@ -16,7 +16,7 @@ angular.module('barsApp')
           if($scope.newBar === '') {
             return;
           }
-          $http.post('/api/bars', { name: $scope.newBar, userId: $scope.userId });
+          $http.post('/api/bars', { name: $scope.newBar, userId: $scope.userId._id });
           $scope.newBar = '';
         };
 
