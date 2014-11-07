@@ -3,6 +3,38 @@
 var _ = require('lodash');
 var Partner = require('./partner.model');
 var User = require('../user/user.model');
+var nodemailer = require('nodemailer');
+var trans = require('./password');
+
+
+// var transporter = nodemailer.createTransport({
+//    service: 'Gmail',
+//    auth: {
+//       user: 'heartbarsmailer@gmail.com',
+//       pass: '4Zyl*R8wax'
+//    }
+// });
+
+//send mail to partner
+exports.sendMail = function(req, res){
+  var mailOptions = {
+        from: 'Heart Bars ✔ <heartbarsmailer@gmail.com>', // sender address
+        to: 'elaine.trombley3@gmail.com', // list of receivers
+        subject: "You've been invited to heart bars!", // Subject line
+        text: 'Join heart bars today and start tracking your relationship with', // plaintext body
+        html: '<b>Join heart bars today and start tracking your relationship with</b>' // html body
+    };
+
+    // send mail with defined transport object
+    trans.sendMail(mailOptions, function(error, info){
+        if(error){
+            console.log(error);
+        } else{
+            console.log('Message sent: ' + info.response);
+            res.json(200, 'Message sent');
+        }
+    });
+}
 
 // Get list of partners
 exports.index = function(req, res) {
