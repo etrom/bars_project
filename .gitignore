@@ -7,5 +7,4 @@ client/bower_components
 dist
 /server/config/local.env.js
 /server/config/local.env.sample.js
-/server/api/message/passwords.js
-/server/api/partner/password.js
+/server/api/emails/passwords.js

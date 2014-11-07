@@ -10,6 +10,9 @@ angular.module('barsApp')
       $scope.message = '';
       $scope.hasPartner = false;
       $scope.partnerBars = [];
+      $scope.invite = false;
+      // $scope.inviteButton = false;
+
 
 
       $http.get('/api/partner/').success(function(partner) {
@@ -42,8 +45,10 @@ angular.module('barsApp')
           })
 
 
-      }
+      };
       $scope.checkHasPartner();
+
+
 
       $scope.addPartner = function(email) {
         $scope.partnerEmail = email;
@@ -52,13 +57,14 @@ angular.module('barsApp')
           }
         $http.post('/api/partner/submit', {email: $scope.partnerEmail, userId: $scope.userId._id}).
         success(function(data, status, headers, config) {
-          console.log(data, "data");
           if(data[0]) {
             $scope.message = "request sent";
             $http.get('/api/users/' + data[0]._id+ '/pair/'+ $scope.userId._id);
           } else {
-            console.log(data);
-            $scope.message = data.message;
+            $scope.message = 'user does not exist';
+            email = $scope.partnerEmail;
+            $scope.inviteButton(email);
+
           }
           $scope.partnerEmail = '';
           socket.syncUpdates('message', $scope.message);
@@ -70,10 +76,9 @@ angular.module('barsApp')
         });
 
           $scope.partner = '';
-      }
+      };
 
       $scope.newPartner = function() {
-          console.log($scope.partner);
           if($scope.partner === ''){
               return;
           }
@@ -82,6 +87,24 @@ angular.module('barsApp')
         return $scope.partner;
       };
 
+      $scope.inviteButton = function(email){
+        $scope.emailInvite = email;
+        $scope.invite = true;
+      };
+
+      $scope.sendInvite = function(){
+        console.log( 'email' );
+        $http.post('/api/emails/send', {email: $scope.emailInvite, reqFrom: $scope.userId._id }).
+          success(function(data, status, headers, config) {
+            console.log(data, 'success');
+           }).
+          error(function(data, status, headers, config) {
+          // called asynchronously if an error occurs
+          // or server returns response with an error status.
+          });
+
+          $scope.partner = '';
+      };
 
 
       // $scope.addPartner = function() {

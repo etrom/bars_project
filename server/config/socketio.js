@@ -18,6 +18,7 @@ function onConnect(socket) {
   });
 
   // Insert sockets below
+  require('../api/emails/emails.socket').register(socket);
   require('../api/message/message.socket').register(socket);
   require('../api/partner/partner.socket').register(socket);
   require('../api/bar/bar.socket').register(socket);

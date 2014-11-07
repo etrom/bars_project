@@ -5,7 +5,10 @@
         <div ng-show="clicked">
             test
         </div> -->
-    <div class="col-sm-6">
+    <p class="alert alert-success" role="alert" width="20%" ng-show="message">{{message}}</br>
+      <button class="btn btn primary" ng-show="invite" ng-click="sendInvite(invite)"> Invite {{emailInvite}} </button>
+    </p>
+    <div class="col-lg-6 pull-right" >
 
         <button class="btn btn-success pull-right" ng-hide="hasPartner" type="button"  ng-click=" clicked = !clicked ">add a partner + </button>
 
@@ -16,9 +19,10 @@
             <button class="btn btn-primary pull-right" ng-click="addPartner(partnerEmail)">Submit</button>
 
         </form>
+
     </div>
         </div>
-    <!--  -->  <p ng-show="message">{{message}}</p>
+    <!--  -->
         <div ng-show="hasPartner">
               <h1 class="page-header">Partners bars:</h1>
               <ul class="nav nav-tabs nav-stacked col-md-6 col-lg-6 col-sm-6" ng-repeat="bar in partnerBars">

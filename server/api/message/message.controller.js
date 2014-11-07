@@ -2,8 +2,6 @@
 
 var _ = require('lodash');
 var Message = require('./message.model');
-var nodemailer = require('nodemailer');
-var trans = require('./passwords.js');
 
 
 // Get list of messages
@@ -15,25 +13,7 @@ exports.index = function(req, res) {
 };
 
 
-exports.sendMail = function(req, res){
-  var mailOptions = {
-        from: 'Fred Foo ✔ <heartbarsmailer@gmail.com>', // sender address
-        to: 'elaine.trombley3@gmail.com', // list of receivers
-        subject: 'Hello ✔', // Subject line
-        text: 'Hello world ✔', // plaintext body
-        html: '<b>Hello world ✔</b>' // html body
-    };
 
-    // send mail with defined transport object
-    trans.sendMail(mailOptions, function(error, info){
-        if(error){
-            console.log(error);
-        } else{
-            console.log('Message sent: ' + info.response);
-            res.json(200, 'Message sent');
-        }
-    });
-}
 
 // Get a single message
 exports.show = function(req, res) {
