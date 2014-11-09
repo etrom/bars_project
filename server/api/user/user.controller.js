@@ -37,6 +37,7 @@ exports.addPartner = function(req,res) {
     });
     User.findOneAndUpdate({ _id:req.params.reqFrom},{requests: false, reqFrom: '', partner: req.params.id}, function(err,user) {
       if(err) {return res.send(500, err)};
+      console.log('success')
       res.json(200, user);
     });
   } else {

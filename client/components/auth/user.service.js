@@ -16,7 +16,25 @@ angular.module('barsApp')
         method: 'GET',
         params: {
           id:'me'
-        }
+        },
+        // interceptor: {
+        //   response: function(response) {
+        //     // expose response
+        //     return response;
+        //   }
+        // }
       }
-	  });
+	  })
   });
+
+// var Resource = $resource('/url', {}, {
+//   get: {
+//     method: 'get',
+//     interceptor: {
+//       response: function(response) {
+//         // expose response
+//         return response;
+//       }
+//     }
+//   }
+// });

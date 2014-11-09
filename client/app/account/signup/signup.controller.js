@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('barsApp')
-  .controller('SignupCtrl', function ($scope, Auth, $location, $window) {
+  .controller('SignupCtrl', function ($scope, Auth, $location, $window, $stateParams, $http) {
     $scope.user = {};
     $scope.errors = {};
 
@@ -14,10 +14,16 @@ angular.module('barsApp')
           email: $scope.user.email,
           password: $scope.user.password
         })
-        .then( function() {
-          // Account created, redirect to home
-          $location.path('/home');
+        .then(function() {
+
+          Auth.getCurrentUser().$promise.then(function(data) {
+            $scope.userId = data._id;
+            $http.post('/api/users/' + $scope.userId + '/confirmPartner/' + $stateParams.signUpId, {acceptance: true})
+            $location.path('/home');
+          });
+
         })
+
         .catch( function(err) {
           err = err.data;
           $scope.errors = {};
@@ -32,6 +38,11 @@ angular.module('barsApp')
     };
 
     $scope.loginOauth = function(provider) {
-      $window.location.href = '/auth/' + provider;
+      debugger;
+      if ($stateParams.signUpId) {
+        $window.location.href = '/auth/' + provider + '/' + $stateParams.signUpId;
+      } else {
+        $window.location.href = '/auth/' + provider;
+      }
     };
   });

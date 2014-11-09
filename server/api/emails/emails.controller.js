@@ -10,14 +10,14 @@ var User = require('../user/user.model');
 exports.sendRequest = function(req, res) {
 
   User.findById(req.body.reqFrom, function (err, user) {
-  console.log(user.name, 'user');
+  console.log(req.body.url, 'url');
 
       var mailOptions = {
             from: user.name +' has invited you to join Heart Bars ♥ <heartbarsmailer@gmail.com>', // sender address
             to: req.body.email, // list of receivers
             subject: '♥♥♥♥♥', // Subject line
-            text: '♥♥♥♥♥ ', // plaintext body
-            html: '<b>Hello world ♥</b>' // html body
+            text: '♥♥♥♥♥', // plaintext body
+            html: '<b><a href="http://localhost:9000' + req.body.url + '">signup now</a></b>' // html body
         };
         // send mail with defined transport object
         trans.sendMail(mailOptions, function(error, info){

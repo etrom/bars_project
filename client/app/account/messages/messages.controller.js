@@ -19,7 +19,7 @@ angular.module('barsApp')
     //on accept
     $scope.addPartner = function(acceptance) {
         $scope.acceptance = acceptance;
-    $http.post('api/users/'+ $scope.userId._id +'/partnered/'+$scope.partnerId, {acceptance: $scope.acceptance}).
+    $http.post('api/users/'+ $scope.userId._id +'/confirmPartner/'+$scope.partnerId, {acceptance: $scope.acceptance}).
           success(function(data, status, headers, config) {
             $window.location.href = '/home';
           }).

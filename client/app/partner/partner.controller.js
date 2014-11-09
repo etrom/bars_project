@@ -11,6 +11,7 @@ angular.module('barsApp')
       $scope.hasPartner = false;
       $scope.partnerBars = [];
       $scope.invite = false;
+      $scope.submitted = false;
       // $scope.inviteButton = false;
 
 
@@ -50,17 +51,20 @@ angular.module('barsApp')
 
 
 
-      $scope.addPartner = function(email) {
+      $scope.requestPartner = function(email) {
         $scope.partnerEmail = email;
         if($scope.partner === ''){
               return;
           }
+          //submit partner request
         $http.post('/api/partner/submit', {email: $scope.partnerEmail, userId: $scope.userId._id}).
         success(function(data, status, headers, config) {
+          //if they exist in the database send the request
           if(data[0]) {
             $scope.message = "request sent";
-            $http.get('/api/users/' + data[0]._id+ '/pair/'+ $scope.userId._id);
+            $http.get('/api/users/' + data[0]._id+ '/requestPartner/'+ $scope.userId._id);
           } else {
+            //if they do not tell them the user does not exist
             $scope.message = 'user does not exist';
             email = $scope.partnerEmail;
             $scope.inviteButton(email);
@@ -92,11 +96,18 @@ angular.module('barsApp')
         $scope.invite = true;
       };
 
+      $scope.uniqueUrl = '/signup/'+ $scope.userId._id;
+
+      //send email invite to outside address
       $scope.sendInvite = function(){
-        console.log( 'email' );
-        $http.post('/api/emails/send', {email: $scope.emailInvite, reqFrom: $scope.userId._id }).
+        console.log($scope.userId._id);
+        console.log($scope.uniqueUrl);
+        $http.post('api/emails/send', {email: $scope.emailInvite, reqFrom: $scope.userId._id, url: $scope.uniqueUrl }).
           success(function(data, status, headers, config) {
             console.log(data, 'success');
+            $scope.message = "request sent";
+            $scope.invite = false;
+            $scope.submitted = true;
            }).
           error(function(data, status, headers, config) {
           // called asynchronously if an error occurs
@@ -105,6 +116,7 @@ angular.module('barsApp')
 
           $scope.partner = '';
       };
+
 
 
       // $scope.addPartner = function() {
