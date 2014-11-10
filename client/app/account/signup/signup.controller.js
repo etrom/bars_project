@@ -14,14 +14,17 @@ angular.module('barsApp')
           email: $scope.user.email,
           password: $scope.user.password
         })
+
         .then(function() {
-
-          Auth.getCurrentUser().$promise.then(function(data) {
-            $scope.userId = data._id;
-            $http.post('/api/users/' + $scope.userId + '/confirmPartner/' + $stateParams.signUpId, {acceptance: true})
+          if ($stateParams) {
+            Auth.getCurrentUser().$promise.then(function(data) {
+              $scope.userId = data._id;
+              $http.post('/api/users/' + $scope.userId + '/confirmPartner/' + $stateParams.signUpId, {acceptance: true});
+              $location.path('/home');
+            })
+          } else {
             $location.path('/home');
-          });
-
+          }
         })
 
         .catch( function(err) {
