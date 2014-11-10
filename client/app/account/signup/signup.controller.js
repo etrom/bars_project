@@ -16,15 +16,24 @@ angular.module('barsApp')
         })
 
         .then(function() {
-          if ($stateParams) {
-            Auth.getCurrentUser().$promise.then(function(data) {
-              $scope.userId = data._id;
-              $http.post('/api/users/' + $scope.userId + '/confirmPartner/' + $stateParams.signUpId, {acceptance: true});
-              $location.path('/home');
-            })
-          } else {
+          Auth.getCurrentUser().$promise.then(function(data) {
+            $scope.currentUser = data;
+            console.log(data, 'data')
+            if ($stateParams) {
+              $http.post('/api/users/' + $scope.currentUser._id + '/confirmPartner/' + $stateParams.signUpId, {acceptance: true});
+            }
+          })
+          .then(function() {
+            //create bars here
+            var barArry = [{barName:'Romance', barInterval: 66}, {barName:'Social', barInterval: 1}, {barName:'Entertainment', barInterval: 7}, {barName:'Intimacy', barInterval: 14}, {barName:'Alone Time', barInterval: 14}];
+            for (var i = 0; i < barArry.length; i++) {
+              $http.post('/api/bars', { name: barArry[i].barName, userId: $scope.currentUser._id, depInterval: barArry[i].barInterval, fulfillment: 100 });
+              console.log('posted');
+            }
+          })
+          .then(function() {
             $location.path('/home');
-          }
+          })
         })
 
         .catch( function(err) {

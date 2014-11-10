@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('barsApp')
-  .controller('MessagesCtrl', function ($scope, User, $http, Auth, $window) {
+  .controller('MessagesCtrl', function ($scope, User, $http, Auth, $window, $stateParams) {
     $scope.getCurrentUser = Auth.getCurrentUser;
     $scope.userId = Auth.getCurrentUser();
     $scope.partnerId = Auth.getCurrentUser().reqFrom;
@@ -31,7 +31,14 @@ angular.module('barsApp')
         // {partner: $scope.currentUser.reqFrom}
     }
 
-
+    // $scope.updateBarPercent = function(acceptance){
+    //     $scope.user = $stateParams.userId;
+    //     $scope.barName = $stateParams.name;
+    //     $scope.acceptance = acceptance;
+    //     http.post('/api/bars/' + bar._id, {userId: $scope.user, name: $scope.barName, fulfillment: 10});
+    //     console.log(done);
+    //     redirect('/home');
+    // }
 
 
     // console.log($scope.getCurrentUser().name);

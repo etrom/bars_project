@@ -33,6 +33,34 @@ exports.sendRequest = function(req, res) {
   });
 };
 
+
+//lowbar reminder
+// exports.lowBarReminder = function(req, res) {
+// //send name
+//   User.findById(req.body.partnerId, function (err, user) {
+//   console.log(req.body.url, 'url');
+
+//       var mailOptions = {
+//             from: user.name +"s bars are getting low! ♥ <heartbarsmailer@gmail.com>", // sender address
+//             to: req.body.email, // list of receivers
+//             subject: '♥♥♥♥♥', // Subject line
+//             text: '♥♥♥♥♥', // plaintext body
+//             html: '<b><a href="http://localhost:9000' + req.body.url + '">submit</a></b>' // html body
+//         };
+//         // send mail with defined transport object
+//         trans.sendMail(mailOptions, function(error, info){
+//             if(error){
+//                 console.log(error);
+//             } else{
+//                 console.log('Message sent: ' + info.response);
+//                 res.json(200, 'Message sent');
+//             }
+//         });
+//         if(err) { return handleError(res, err); }
+
+//   });
+// };
+
 // Find all emails
 exports.index = function(req, res) {
   Emails.find(function (err, emails) {

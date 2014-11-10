@@ -37,25 +37,59 @@ exports.show = function(req, res) {
 
 // Creates a new bar in the DB.
 exports.create = function(req, res) {
+  console.log(req.body);
   Bar.create(req.body, function(err, bar) {
     if(err) { return handleError(res, err); }
     return res.json(201, bar);
   });
 };
+///update fulfillment value by 10, 30 or 50
+exports.update = function(req, res){
+  console.log(req.body, 'body');
+  console.log(req.params, 'params');
+  Bar.findById(req.params.id, function(err,bar) {
+    if(err) {return res.send(500, err)};
+      if (req.body.fulfillment === 10){
+        bar.fulfillment += 10;
+        if (bar.fulfillment > 100){
+          bar.fulfillment = 100;
+        }
+        console.log(bar);
+      }
+      if (req.body.fulfillment === 30){
+        bar.fulfillment += 30;
+        if (bar.fulfillment > 100){
+          bar.fulfillment = 100;
+          console.log(bar);
+        }
+        console.log(bar);
+      }
+       if (req.body.fulfillment === 50){
+        bar.fulfillment += 50;
+        if (bar.fulfillment > 100){
+          bar.fulfillment = 100;
+          console.log(bar);
+        }
+        console.log(bar);
+      }
+      bar.save();
+      res.json(200, bar);
+    });
+};
 
 // Updates an existing bar in the DB.
-exports.update = function(req, res) {
-  if(req.body._id) { delete req.body._id; }
-  Bar.findById(req.params.id, function (err, bar) {
-    if (err) { return handleError(res, err); }
-    if(!bar) { return res.send(404); }
-    var updated = _.merge(bar, req.body);
-    updated.save(function (err) {
-      if (err) { return handleError(res, err); }
-      return res.json(200, bar);
-    });
-  });
-};
+// exports.update = function(req, res) {
+//   if(req.body._id) { delete req.body._id; }
+//   Bar.findById(req.params.id, function (err, bar) {
+//     if (err) { return handleError(res, err); }
+//     if(!bar) { return res.send(404); }
+//     var updated = _.merge(bar, req.body);
+//     updated.save(function (err) {
+//       if (err) { return handleError(res, err); }
+//       return res.json(200, bar);
+//     });
+//   });
+// };
 
 // Deletes a bar from the DB.
 exports.destroy = function(req, res) {
