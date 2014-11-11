@@ -58,7 +58,7 @@ angular.module('barsApp')
 
       //scope userId is a bar Id
       //got rid of ._id
-      $http.get('api/users/'+ $scope.userId).success(function(user) {
+      $http.get('api/users/'+ $scope.userId._id).success(function(user) {
         console.log(user,'user')
         $scope.secondPartner = user.partnerId
         $http.get('/api/users/' + $scope.secondPartner).success(function(partner) {

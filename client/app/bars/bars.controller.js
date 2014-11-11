@@ -36,8 +36,10 @@ angular.module('barsApp')
         $scope.lowBarReminder = function(bars){
           if($scope.user.partner) {
             for(var i = 0; i < bars.length; i++) {
+
               if (bars[i].fulfillment <= 45 && bars[i].reminded === false){
                 bars[i].reminded = true;
+              console.log(bars[i].reminded)
 
                 console.log('bar is low');
                 console.log(bars[0], 'bars[i]')
