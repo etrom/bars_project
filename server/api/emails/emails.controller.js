@@ -45,35 +45,41 @@ exports.lowBarReminder = function(req, res) {
   })
 */
 //send name
-console.log(req.body.id, 'body');
+console.log("ths is from lowbarreminder", req.body.id);
   User.findById(req.body.id, function (err, user) {
-    User.findById(user.partner, function(err, partner){
-
+      console.log(user, 'user')
       if(!user.partner){
         res.json(404, 'no partner found');
       }
-      console.log(req.body.url, 'url');
 
-      var mailOptions = {
-        // user.name +
-            from: user.name + "'s " + req.body.barName +" bar is getting low! ♥ <heartbarsmailer@gmail.com>", // sender address
-            to: partner.email,//list of receivers
-            subject: '♥♥♥♥♥', // Subject line
-            text: '♥♥♥♥♥', // plaintext body
-            // html: swig.compile('/path/to/template',user)
-            html: '<b><a href="http://localhost:9000' + req.body.url + '">submit</a></b>' // html body
-        };
-        // send mail with defined transport object
-        trans.sendMail(mailOptions, function(error, info){
-            if(error){
-                console.log(error);
-            } else{
-                console.log('Message sent: ' + info.response);
-                res.json(200, 'Message sent');
-            }
-        });
-        if(err) { return handleError(res, err); }
-    })
+      User.findById(user.partner, function(err, partner){
+        if(!partner){
+        res.json(404, 'partner id cant be found');
+      }
+
+        console.log("url find by user", req.body.url, 'url');
+
+        var mailOptions = {
+          // user.name +
+              from: user.name + "'s " + req.body.barName +" bar is getting low! ♥ <heartbarsmailer@gmail.com>", // sender address
+              to: partner.email,//list of receivers
+              subject: '♥♥♥♥♥', // Subject line
+              text: '♥♥♥♥♥', // plaintext body
+              // html: swig.compile('/path/to/template',user)
+              html: '<b><a href="http://localhost:9000' + req.body.url + '">submit</a></b>' // html body
+          };
+          // send mail with defined transport object
+          trans.sendMail(mailOptions, function(error, info){
+              if(error){
+                if(error) { return handleError(res, err); }
+                  console.log(error);
+              } else {
+                  console.log('Message sent: ' + info.response);
+                  res.json(200, 'Message sent');
+              }
+          });
+          if(err) { return handleError(res, err); }
+      })
   });
 };
 

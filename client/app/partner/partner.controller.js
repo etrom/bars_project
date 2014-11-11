@@ -12,15 +12,16 @@ angular.module('barsApp')
       $scope.partnerBars = [];
       $scope.invite = false;
       $scope.submitted = false;
+      $scope.partnerName= ''
       // $scope.inviteButton = false;
 
 
 
-      $http.get('/api/partner/').success(function(partner) {
-        $scope.partner = partner;
-        console.log($scope.partner, 'orginal set partner')
-        socket.syncUpdates('Partner', $scope.partner);
-      });
+      // $http.get('/api/partner/').success(function(partner) {
+      //   $scope.partner = partner;
+      //   console.log($scope.partner, 'orginal set partner')
+      //   socket.syncUpdates('Partner', $scope.partner);
+      // });
         //check if partner exists
         $scope.checkHasPartner = function() {
 
@@ -55,13 +56,14 @@ angular.module('barsApp')
       };
       $scope.checkHasPartner();
 
-
-      $http.get('api/users/'+ $scope.userId._id).success(function(user) {
+      //scope userId is a bar Id
+      //got rid of ._id
+      $http.get('api/users/'+ $scope.userId).success(function(user) {
         console.log(user,'user')
-        console.log($scope.partner, 'partner')
-        $http.get('/api/users/' + $scope.partner).success(function(partner) {
-          $scope.partnerName = $scope.partner.name;
-          console.log($scope.partnerName, 'partnerName');
+        $scope.secondPartner = user.partnerId
+        $http.get('/api/users/' + $scope.secondPartner).success(function(partner) {
+          $scope.secondPartner = partner.name;
+          console.log($scope.secondPartner, 'partnerName');
         });
       })
 

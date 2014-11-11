@@ -9,7 +9,8 @@ var BarSchema = new Schema({
   fulfillment: Number,
   userId: String,
   // {type: Schema.Types.ObjectId, ref: 'User'}
-  partnerId: String
+  partnerId: String,
+  reminded: {type: Boolean, default: false}
 });
 
 module.exports = mongoose.model('Bar', BarSchema);

@@ -78,18 +78,24 @@ exports.update = function(req, res){
 };
 
 // Updates an existing bar in the DB.
-// exports.update = function(req, res) {
-//   if(req.body._id) { delete req.body._id; }
-//   Bar.findById(req.params.id, function (err, bar) {
-//     if (err) { return handleError(res, err); }
-//     if(!bar) { return res.send(404); }
-//     var updated = _.merge(bar, req.body);
-//     updated.save(function (err) {
-//       if (err) { return handleError(res, err); }
-//       return res.json(200, bar);
-//     });
-//   });
-// };
+exports.updateBars = function(req, res) {
+  console.log('hit');
+  if(req.body._id) { delete req.body._id; }
+  Bar.findById(req.params.id, function (err, bar) {
+    if (err) { return handleError(res, err); }
+    if(!bar) { return res.send(404); }
+    bar.reminded = true;
+    bar.markModified('reminded');
+    bar.save(function (err, newlySaved, numModified) {
+      Bar.findById(req.params.id, function(err, bar) {
+        console.log('regotten bar:', bar);
+      })
+      console.log("number modified", numModified);
+      if (err) { return handleError(res, err); }
+      return res.json(200, newlySaved);
+    });
+  });
+};
 
 // Deletes a bar from the DB.
 exports.destroy = function(req, res) {

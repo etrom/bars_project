@@ -6,8 +6,15 @@ angular.module('barsApp')
     .controller('BarCtrl', function ($scope, $http, socket, Auth) {
         $scope.bars = [];
         $scope.user = Auth.getCurrentUser();
-        $scope.hasRun = false;
+        $scope.hasReminded = false;
 
+        // onBarChange(function() {
+        //   if (bar.fulfillment <= 45 && !$scope.hasReminded) {
+        //     $scope.hasReminded = true;
+        //     // email
+        //   }
+        //   // handle other changes
+        // })
 
         $http.get('/api/bars/' + $scope.user._id).success(function(barsFromGet) {
           $scope.bars = barsFromGet;
@@ -29,18 +36,33 @@ angular.module('barsApp')
         $scope.lowBarReminder = function(bars){
           if($scope.user.partner) {
             for(var i = 0; i < bars.length; i++) {
-              if (bars[i].fulfillment <= 45){
+              if (bars[i].fulfillment <= 45 && bars[i].reminded === false){
+                bars[i].reminded = true;
+
                 console.log('bar is low');
+                console.log(bars[0], 'bars[i]')
+
                 //url that partner will click to submit updates
                 //bar userId, bar name, barId
                 $scope.uniqueUrl = '/messages/'+ bars[i].userId + '/' + bars[i].name + '/' + bars[i]._id;
                 //get the user based on the bar
                 $scope.barName = bars[i].name;
+                $scope.barId = bars[i]._id
+
                 $http.get('/api/users/'+ bars[i].userId, {barName: bars[i].name}).success(function(user){
                   // post with this data
-                  $http.post('/api/emails/lowBar', {id: user._id, barName: $scope.barName, name: user.name, url: $scope.uniqueUrl }).success(function(bar){
-                    console.log('wahoo');
-                  })
+                  console.log('inside api/users')
+                  $http.post('/api/emails/lowBar', {id: user._id, barId: $scope.barId, barName: $scope.barName, name: user.name, url: $scope.uniqueUrl, reminded: true }).success(function(bar){
+                    console.log('inside lowbar call ')
+                    $http.put('/api/bars/'+ $scope.barId, {reminded: true}).success(function(bar){
+                      $scope.bars[i] = bar;
+                      console.log(bars[i], 'reminded true');
+                    }).error(function(data, status, headers, config) {
+                      console.log("inside error from api/bars/barid", data, status);
+                    });
+                  }).error(function(data, status, headers, config) {
+                    console.log("inside erro from api/emails/lowbar", data, status);
+                  });
                 })
               }
             }

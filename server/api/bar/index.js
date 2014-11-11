@@ -12,7 +12,7 @@ router.get('/', controller.index);
 router.get('/:userId',auth.isAuthenticated(), controller.userBars);
 router.post('/', auth.isAuthenticated(), controller.create);
 router.post('/:id', controller.update);
-// router.put('/:id', controller.update);
+router.put('/:id', controller.updateBars);
 router.patch('/:id', controller.update);
 router.delete('/:id', controller.destroy);
 
