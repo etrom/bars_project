@@ -4,7 +4,7 @@ var express = require('express');
 var controller = require('./emails.controller');
 var router = express.Router();
 
-// router.post('/lowBar', controller.lowBarReminder);
+router.post('/lowBar', controller.lowBarReminder);
 router.post('/send', controller.sendRequest);
 router.get('/', controller.index);
 router.get('/:id', controller.show);

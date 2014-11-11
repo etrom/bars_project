@@ -24,12 +24,12 @@ angular.module('barsApp')
         controller: 'SettingsCtrl',
         authenticate: true
       })
-      // .state('barsUpdate', {
-      //   url: '/messages/:userId/:name/:id',
-      //   templateUrl: 'app/account/messages/updateBars.html',
-      //   controller: 'MessagesCtrl',
-      //   authenticate: true
-      // })
+      .state('barsUpdate', {
+        url: '/messages/:userId/:name/:id',
+        templateUrl: 'app/account/messages/updateBars.html',
+        controller: 'MessagesCtrl',
+        authenticate: true
+      })
       .state('messages', {
         url: '/messages',
         templateUrl: 'app/account/messages/messages.html',

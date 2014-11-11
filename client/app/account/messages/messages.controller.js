@@ -10,6 +10,7 @@ angular.module('barsApp')
     // console.log(Auth.getCurrentUser())
 
     User.get().$promise.then(function(user) {
+        console.log( user.reqFrom,'reqFrom')
         $http.get('api/users/'+ user.reqFrom).success(function(partner) {
             $scope.partner = partner;
         })
@@ -19,6 +20,8 @@ angular.module('barsApp')
     //on accept
     $scope.addPartner = function(acceptance) {
         $scope.acceptance = acceptance;
+        console.log($scope.userId._id, 'one'),
+        console.log($scope.partnerId, 'the other')
     $http.post('api/users/'+ $scope.userId._id +'/confirmPartner/'+$scope.partnerId, {acceptance: $scope.acceptance}).
           success(function(data, status, headers, config) {
             $window.location.href = '/home';

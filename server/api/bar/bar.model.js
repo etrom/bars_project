@@ -8,6 +8,7 @@ var BarSchema = new Schema({
   depInterval: Number,
   fulfillment: Number,
   userId: String,
+  // {type: Schema.Types.ObjectId, ref: 'User'}
   partnerId: String
 });
 

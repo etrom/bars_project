@@ -23,7 +23,7 @@ var async = require('async');
 
 ///depeletes by .60 every hour === 100% depeletion in 7 days
 module.exports = function() {
-  var cron = new CronJob('*/60 * * * * *', function(){
+  var cron = new CronJob('1* * * * * *', function(){
     Bar.find(function (err, bars) {
       async.each(bars, function(bar, doneOneBar) {
         var interval = bar.depInterval;
@@ -33,51 +33,61 @@ module.exports = function() {
             var full = bar.fulfillment;
             full = full.toFixed(2);
             full -= 0.01;
-
+            if (full <= 0){
+                full = 0;
+            }
             bar.fulfillment = full;
             bar.save(function(err, bar, numModified) {
-              console.log(bar._id + " updated!");
+              // console.log(bar._id + " updated!");
             });
             break;
           case 14:
             var full = bar.fulfillment;
             full = full.toFixed(3);
             full -= 0.005;
-
+            if (full <= 0){
+                full = 0;
+            }
             bar.fulfillment = full;
             bar.save(function(err, bar, numModified) {
-              console.log(bar._id + " updated!");
+              // console.log(bar._id + " updated!");
             });
             break;
           case 1:
             var full = bar.fulfillment;
             full = full.toFixed(2);
             full -= 0.07;
-
+            if (full <= 0){
+                full = 0;
+            }
             bar.fulfillment = full;
             bar.save(function(err, bar, numModified) {
-              console.log(bar._id + " updated!");
+              // console.log(bar._id + " updated!");
             });
             break;
           case 3:
             var full = bar.fulfillment;
             full = full.toFixed(2);
             full -= 1.67;
-
+            if (full <= 0){
+                full = 0;
+            }
             bar.fulfillment = full;
             bar.save(function(err, bar, numModified) {
-              console.log(bar._id + " updated!");
+              // console.log(bar._id + " updated!");
             });
             break;
             //really fast
             case 66:
             var full = bar.fulfillment;
             full = full.toFixed(2);
-            full -= 3.67;
-
+            full -= 1.55;
+            if (full <= 0){
+                full = 0;
+            }
             bar.fulfillment = full;
             bar.save(function(err, bar, numModified) {
-              console.log(bar._id + " updated!");
+              // console.log(bar._id + " updated!");
             });
             break;
         }

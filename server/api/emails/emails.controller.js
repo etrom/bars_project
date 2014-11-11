@@ -7,6 +7,7 @@ var trans = require('./passwords');
 var User = require('../user/user.model');
 
 
+
 exports.sendRequest = function(req, res) {
 
   User.findById(req.body.reqFrom, function (err, user) {
@@ -35,31 +36,46 @@ exports.sendRequest = function(req, res) {
 
 
 //lowbar reminder
-// exports.lowBarReminder = function(req, res) {
-// //send name
-//   User.findById(req.body.partnerId, function (err, user) {
-//   console.log(req.body.url, 'url');
+exports.lowBarReminder = function(req, res) {
+/*
+  User.findById(req.body.id, function (err, user) {
+    user.getPartner(function(err,partner) {
+      partner.sendEmail(mailOptions)
+    })
+  })
+*/
+//send name
+console.log(req.body.id, 'body');
+  User.findById(req.body.id, function (err, user) {
+    User.findById(user.partner, function(err, partner){
 
-//       var mailOptions = {
-//             from: user.name +"s bars are getting low! ♥ <heartbarsmailer@gmail.com>", // sender address
-//             to: req.body.email, // list of receivers
-//             subject: '♥♥♥♥♥', // Subject line
-//             text: '♥♥♥♥♥', // plaintext body
-//             html: '<b><a href="http://localhost:9000' + req.body.url + '">submit</a></b>' // html body
-//         };
-//         // send mail with defined transport object
-//         trans.sendMail(mailOptions, function(error, info){
-//             if(error){
-//                 console.log(error);
-//             } else{
-//                 console.log('Message sent: ' + info.response);
-//                 res.json(200, 'Message sent');
-//             }
-//         });
-//         if(err) { return handleError(res, err); }
+      if(!user.partner){
+        res.json(404, 'no partner found');
+      }
+      console.log(req.body.url, 'url');
 
-//   });
-// };
+      var mailOptions = {
+        // user.name +
+            from: user.name + "'s " + req.body.barName +" bar is getting low! ♥ <heartbarsmailer@gmail.com>", // sender address
+            to: partner.email,//list of receivers
+            subject: '♥♥♥♥♥', // Subject line
+            text: '♥♥♥♥♥', // plaintext body
+            // html: swig.compile('/path/to/template',user)
+            html: '<b><a href="http://localhost:9000' + req.body.url + '">submit</a></b>' // html body
+        };
+        // send mail with defined transport object
+        trans.sendMail(mailOptions, function(error, info){
+            if(error){
+                console.log(error);
+            } else{
+                console.log('Message sent: ' + info.response);
+                res.json(200, 'Message sent');
+            }
+        });
+        if(err) { return handleError(res, err); }
+    })
+  });
+};
 
 // Find all emails
 exports.index = function(req, res) {

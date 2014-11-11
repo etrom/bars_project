@@ -1,6 +1,6 @@
 <div ng-show="isLoggedIn()" class="container" >
   <div class="row">
-    <div class="col-lg-6">
+    <div class="col-sm-6">
       <h1 class="page-header">My bars:</h1>
       <ul class="nav nav-tabs nav-stacked col-md-6 col-lg-6 col-sm-6" ng-repeat="bar in bars">
         <li><a href="#">{{bar.name}}</a><button type="submit" class="btn btn-primary" ng-click="addPercent(bar)">+</button>
@@ -24,6 +24,6 @@
 
     </div>
 
-    <div ui-view="partner"></div>
+    <div class="col-sm-6" ui-view="partner"></div>
   </div>
 </div>

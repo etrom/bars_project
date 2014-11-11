@@ -6,6 +6,8 @@ angular.module('barsApp')
     .controller('BarCtrl', function ($scope, $http, socket, Auth) {
         $scope.bars = [];
         $scope.user = Auth.getCurrentUser();
+        $scope.hasRun = false;
+
 
         $http.get('/api/bars/' + $scope.user._id).success(function(barsFromGet) {
           $scope.bars = barsFromGet;
@@ -16,23 +18,34 @@ angular.module('barsApp')
                 return true;
               }
             });
-            console.log("i got here", filteredBars);
             angular.copy(filteredBars, $scope.bars);
-            // $scope.bars = filteredBars;
-            // $scope.lowBarReminder($scope.bars);
-          });
-        });
+            $scope.lowBarReminder($scope.bars);
 
-        //if bar gets low send email
-        // $scope.lowBarReminder = function(bar){
-        //   if (bar.fulfillment <= 45 && bar.name === 'Romance'){
-        //     //url that partner will click to submit updates
-        //     $scope.uniqueUrl = '/messages/'+ $scope.user._id + '/' + bar.name + '/' + bar._id;
-        //     $http.post('/api/emails/lowBar', {name: $scope.user.name, url: $scope.uniqueUrl }).success(function(bar){
-        //       console.log('wahoo');
-        //     })
-        //   }
-        // };
+          });
+
+
+        });
+        // if bar gets low send email
+        $scope.lowBarReminder = function(bars){
+          if($scope.user.partner) {
+            for(var i = 0; i < bars.length; i++) {
+              if (bars[i].fulfillment <= 45){
+                console.log('bar is low');
+                //url that partner will click to submit updates
+                //bar userId, bar name, barId
+                $scope.uniqueUrl = '/messages/'+ bars[i].userId + '/' + bars[i].name + '/' + bars[i]._id;
+                //get the user based on the bar
+                $scope.barName = bars[i].name;
+                $http.get('/api/users/'+ bars[i].userId, {barName: bars[i].name}).success(function(user){
+                  // post with this data
+                  $http.post('/api/emails/lowBar', {id: user._id, barName: $scope.barName, name: user.name, url: $scope.uniqueUrl }).success(function(bar){
+                    console.log('wahoo');
+                  })
+                })
+              }
+            }
+          }
+        };
 
 
         // increase fulfillment #'s

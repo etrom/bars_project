@@ -7,7 +7,7 @@ var router = express.Router();
 var Bar = require('./bar.model');
 var auth = require('../../auth/auth.service');
 
-// router.get('/:id', controller.show); //not sure
+// router.get('/:id', controller.show); //not using want userBars to hit first
 router.get('/', controller.index);
 router.get('/:userId',auth.isAuthenticated(), controller.userBars);
 router.post('/', auth.isAuthenticated(), controller.create);

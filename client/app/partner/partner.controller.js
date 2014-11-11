@@ -18,6 +18,7 @@ angular.module('barsApp')
 
       $http.get('/api/partner/').success(function(partner) {
         $scope.partner = partner;
+        console.log($scope.partner, 'orginal set partner')
         socket.syncUpdates('Partner', $scope.partner);
       });
         //check if partner exists
@@ -27,12 +28,19 @@ angular.module('barsApp')
             $http.get('api/users/'+ user._id).
             success(function(data, status, headers, config) {
               if (data.partner) {
-
                   $scope.hasPartner = true;
                   //if partner exists get their bars
                   $http.get('/api/bars/' + data.partner).success(function(bars) {
                     $scope.partnerBars = bars;
-                    socket.syncUpdates('partnerBars', $scope.partnerBars);
+                    // socket.syncUpdates('partnerBars', $scope.partnerBars);
+                    socket.syncUpdates('bar', bars, function(event, oneBar, barsFromSocket) {
+                      var filteredBars = barsFromSocket.filter(function(bar) {
+                        if (bar.userId === data.partner) {
+                          return true;
+                        }
+                      });
+                      angular.copy(filteredBars, $scope.partnerBars);
+                    });
                   });
                 } else {
                   $scope.hasPartner = false;
@@ -48,13 +56,22 @@ angular.module('barsApp')
       $scope.checkHasPartner();
 
 
+      $http.get('api/users/'+ $scope.userId._id).success(function(user) {
+        console.log(user,'user')
+        console.log($scope.partner, 'partner')
+        $http.get('/api/users/' + $scope.partner).success(function(partner) {
+          $scope.partnerName = $scope.partner.name;
+          console.log($scope.partnerName, 'partnerName');
+        });
+      })
+
 
       $scope.requestPartner = function(email) {
         $scope.partnerEmail = email;
         if($scope.partner === ''){
               return;
           }
-          //submit partner request
+          //submit partner request with their email and their userId
         $http.post('/api/partner/submit', {email: $scope.partnerEmail, userId: $scope.userId._id}).
         success(function(data, status, headers, config) {
           //if they exist in the database send the request

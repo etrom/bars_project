@@ -148,7 +148,22 @@ UserSchema.methods = {
     if (!password || !this.salt) return '';
     var salt = new Buffer(this.salt, 'base64');
     return crypto.pbkdf2Sync(password, salt, 10000, 64).toString('base64');
+  },
+
+  //someUser.getPartner(function(err,partner) {
+  //  partner.sendEmail('subject','message')
+  //})
+
+  getPartner: function(cb) {
+    return mongoose.model('User').findById(this.partner,cb)
+  },
+
+  //some
+
+  sendEmail: function(subject,body)  {
+
   }
+
 };
 
 module.exports = mongoose.model('User', UserSchema);
