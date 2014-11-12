@@ -54,16 +54,16 @@ angular.module('barsApp')
                 $http.get('/api/users/'+ bars[i].userId, {barName: bars[i].name}).success(function(user){
                   // post with this data
                   console.log('inside api/users')
-                  $http.post('/api/emails/lowBar', {id: user._id, barId: $scope.barId, barName: $scope.barName, name: user.name, url: $scope.uniqueUrl, reminded: true }).success(function(bar){
-                    console.log('inside lowbar call ')
-                    $http.put('/api/bars/'+ $scope.barId, {reminded: true}).success(function(bar){
+                  $http.put('/api/bars/'+ $scope.barId, {reminded: true}).success(function(bar){
+
+                    $http.post('/api/emails/lowBar', {id: user._id, barId: $scope.barId, barName: $scope.barName, name: user.name, url: $scope.uniqueUrl, reminded: true }).success(function(bar){
                       $scope.bars[i] = bar;
                       console.log(bars[i], 'reminded true');
                     }).error(function(data, status, headers, config) {
-                      console.log("inside error from api/bars/barid", data, status);
+                      console.log("inside error from emails/lowbar", data, status);
                     });
                   }).error(function(data, status, headers, config) {
-                    console.log("inside erro from api/emails/lowbar", data, status);
+                    console.log("inside erro from bar/barid", data, status);
                   });
                 })
               }
